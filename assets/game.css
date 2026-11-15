@@ -803,3 +803,19 @@ button.planet-card:hover { border-color: var(--line-strong); }
 .tut-timeline em { position: absolute; left: 60%; top: -22px; transform: translateX(-50%); font-style: normal; font-size: 16px; color: var(--warn); }
 .tut-stars { font-size: 34px; color: var(--star); letter-spacing: 2px; }
 .tut-score { font: 700 22px var(--font-mono); color: var(--text); }
+
+.rp-tiles { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(74px, 1fr)); gap: 6px; }
+.rp-tile { all: unset; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 2px; width: 100%; padding: 6px 4px; border-radius: 8px; background: var(--surface-3); border: 1.5px solid var(--line-strong); cursor: pointer; text-align: center; }
+.rp-tile:hover { border-color: var(--text-2); }
+.rp-tile:focus-visible { outline: 2px solid var(--primary); }
+.rp-tile.is-static { cursor: default; }
+.rp-tile .rp-art { width: 44px; height: 44px; font-size: 22px; }
+.rp-tile .rp-name { font-size: 10.5px; line-height: 1.2; color: var(--text-2); min-height: 2.4em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.rp-tile .rp-val { font-size: 11px; font-weight: 700; color: var(--text); }
+.rp-give .rp-tile { border-color: rgba(63,185,122,.6); }
+.rp-give .rp-val { color: var(--ok-text); }
+.rp-bad .rp-tile { border-color: var(--danger); background: var(--danger-soft); }
+.rp-bad .rp-val { color: var(--danger-text); }
+.slot.is-culprit { outline: 3px solid var(--danger); outline-offset: 2px; box-shadow: inset 0 0 0 2px var(--danger), 0 0 14px rgba(240,106,110,.6); z-index: 3; animation: culprit-pulse 1.2s ease-in-out 3; }
+@keyframes culprit-pulse { 50% { box-shadow: inset 0 0 0 2px var(--danger), 0 0 22px rgba(240,106,110,.9); } }
+@media (prefers-reduced-motion: reduce) { .slot.is-culprit { animation: none; } }
