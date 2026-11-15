@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Space Mission Design Simulator – Demo</title>
+<meta name="description" content="Team Techbro – NASA Space Apps Challenge 2026 project demo.">
+<link rel="icon" href="../favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Inter:wght@400;600&display=swap">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{background:#070B16;height:100%;overflow:hidden}
+#stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+#deck{width:1920px;height:1080px;position:relative;transform-origin:center center;flex:none}
+section{position:absolute;inset:0;width:1920px;height:1080px;overflow:hidden;opacity:0;pointer-events:none;transition:opacity .4s}
+section.on{opacity:1;pointer-events:auto}
+section:not(.on) .rise{animation:none}
+ul{list-style:none}
+body { font-family: 'Inter', Arial, sans-serif; color: #E8ECF4; }
+section { background: #0D1426; padding: 128px; display: flex; flex-direction: column; gap: 40px; counter-increment: page; }
+section.alt { background: #131D36; }
+section.accent { background: #F2A541; color: #1A1408; }
+h1, h2, h3 { font-family: 'Space Grotesk', Arial, sans-serif; }
+h1 { font-size: 120px; font-weight: 700; line-height: 1.0; color: #F4F6FB; }
+h2 { font-size: 72px; font-weight: 600; line-height: 1.05; color: #F4F6FB; }
+h3 { font-size: 40px; font-weight: 600; line-height: 1.15; color: #F4F6FB; }
+p { font-size: 32px; line-height: 1.4; color: #B9C3D6; }
+.eyebrow { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 26px; font-weight: 600; letter-spacing: 3px; color: #F2A541; }
+.lead { font-size: 40px; line-height: 1.35; color: #D6DDEA; }
+.small { font-size: 26px; line-height: 1.4; color: #93A0B8; }
+.row { display: flex; gap: 64px; align-items: flex-start; }
+.col { display: flex; flex-direction: column; gap: 28px; }
+.shot { border-radius: 16px; border: 2px solid #2B3A5E; object-fit: contain; background: #070B16; box-shadow: 0 24px 64px rgba(0,0,0,0.45); }
+.cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; }
+.cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.card { background: #18233F; border: 2px solid #26355A; border-radius: 20px; padding: 36px; display: flex; flex-direction: column; gap: 14px; }
+.card .num { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 72px; font-weight: 700; color: #F2A541; line-height: 1; }
+.card .lbl { font-size: 28px; color: #B9C3D6; line-height: 1.35; }
+.steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; }
+.step { background: #18233F; border: 2px solid #26355A; border-radius: 18px; padding: 28px 24px; display: flex; flex-direction: column; gap: 10px; }
+.step .n { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 28px; font-weight: 700; color: #6FA3FF; }
+.step h3 { font-size: 34px; }
+.step .d { font-size: 24px; line-height: 1.35; color: #B9C3D6; }
+.pill { font-size: 26px; font-weight: 600; padding: 10px 22px; border-radius: 999px; background: #22325A; color: #DCE6FA; }
+.pills { display: flex; flex-wrap: wrap; gap: 14px; }
+.link { font-family: 'Space Grotesk', Arial, sans-serif; font-size: 36px; font-weight: 600; color: #F2A541; }
+.accent h2 { color: #1A1408; }
+.accent p { color: #3A2B10; }
+.accent .eyebrow { color: #5A3C05; }
+.footer { position: absolute; left: 128px; bottom: 56px; width: 1664px; font-size: 24px; color: #6F7E9C; }
+.rise { animation: rise 600ms ease-out both; animation-delay: calc(var(--i, 0) * 120ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+#nav{position:fixed;bottom:14px;right:18px;display:flex;gap:8px;align-items:center;font:600 14px Inter,Arial,sans-serif;color:#93A0B8;z-index:5}
+#nav button{background:#18233F;color:#E8ECF4;border:1px solid #2B3A5E;border-radius:8px;padding:8px 14px;font:inherit;cursor:pointer}
+#nav a{color:#F2A541}
+@media print{
+  @page{size:1920px 1080px;margin:0}
+  html,body{height:auto;overflow:visible;background:none}
+  #stage{position:static;display:block} #deck{transform:none!important;height:auto}
+  section{position:relative;opacity:1;page-break-after:always;break-after:page}
+  .rise{animation:none!important} #nav{display:none}
+}
+</style></head><body>
+<div id="stage"><div id="deck">
+<section id="cover" data-transition="fade" style="padding:0">
+
+<div style="position:absolute; left:128px; top:200px; width:860px; display:flex; flex-direction:column; gap:36px">
+<p class="eyebrow">NASA SPACE APPS CHALLENGE 2026 · TEAM TECHBRO</p>
+<h1 class="rise">Space Mission Design Simulator</h1>
+<p class="lead rise" style="--i:1">Design a spacecraft, launch it, and fly to all seven planets, learning the trade-offs real mission engineers make.</p>
+<p class="link rise" style="--i:2">Play: togiaan.github.io/space-mission</p>
+</div>
+<img class="shot rise" src="img/menu.jpg" alt="Main menu of Space Mission Design Simulator" style="position:absolute; left:1040px; top:300px; width:752px; height:423px; --i:3">
+</section>
+<section id="why" class="alt" data-transition="fade">
+<p class="eyebrow">WHY WE BUILT IT</p>
+<h2 style="width:1500px">A great mission is not the biggest rocket. It is the best balance.</h2>
+<p class="lead" style="width:1400px">Real engineers juggle money, mass, power, signal and time. We wanted kids aged 9 to 14 to feel that challenge with their own hands: try, fail, read the report, and fix one part.</p>
+<div class="cards" style="margin-top:24px">
+<div class="card rise" style="--i:0"><p class="num">7</p><p class="lbl">planets to reach, from Mars to Neptune</p></div>
+<div class="card rise" style="--i:1"><p class="num">21</p><p class="lbl">missions: flybys, orbiters and special probes</p></div>
+<div class="card rise" style="--i:2"><p class="num">26</p><p class="lbl">spacecraft parts in seven groups to combine</p></div>
+</div>
+</section>
+<section id="flow" data-transition="fade">
+<p class="eyebrow">HOW A MISSION PLAYS</p>
+<h2>Six steps, the same flow real mission teams follow</h2>
+<div class="steps" style="margin-top:24px">
+<div class="step rise" style="--i:0"><p class="n">01</p><h3>Briefing</h3><p class="d">Goal, budget and the planet’s heat, radiation and dust</p></div>
+<div class="step rise" style="--i:1"><p class="n">02</p><h3>Assembly</h3><p class="d">Drag or tap parts onto a hull and watch every resource change live</p></div>
+<div class="step rise" style="--i:2"><p class="n">03</p><h3>Launch</h3><p class="d">Pick a rocket strong enough for the total mass</p></div>
+<div class="step rise" style="--i:3"><p class="n">04</p><h3>Flight</h3><p class="d">Steer past satellites, the ISS and asteroids, with pilot assist for younger players</p></div>
+<div class="step rise" style="--i:4"><p class="n">05</p><h3>Control</h3><p class="d">Run the mission year by year and answer events like dust storms</p></div>
+<div class="step rise" style="--i:5"><p class="n">06</p><h3>Report</h3><p class="d">Score, stars and a clear explanation of what to improve</p></div>
+</div>
+<p class="lead" style="width:1500px; margin-top:24px">Events only happen when the design is truly at its limit, so every problem traces back to a choice the player made.</p>
+</section>
+<section id="assembly" class="alt" data-transition="fade">
+<p class="eyebrow">THE ASSEMBLY WORKSHOP</p>
+<div class="row">
+<div class="col" style="width:600px">
+<h2>Every part is a trade-off</h2>
+<p>A bigger solar panel means more power but more mass. A bigger antenna sends more data but costs budget.</p>
+<div class="pills">
+<p class="pill">Budget</p><p class="pill">Mass</p><p class="pill">Energy</p><p class="pill">Communication</p><p class="pill">Data</p><p class="pill">Lifespan</p><p class="pill">Fuel</p>
+</div>
+<p class="small">Bars turn green, amber or red, with the reason written beside them.</p>
+</div>
+<img class="shot rise" src="img/assembly.jpg" alt="Assembly workshop: parts catalog on the left, spacecraft layout in the middle, live resource bars on the right" style="width:1000px; height:563px">
+</div>
+</section>
+<section id="fly" data-transition="fade">
+<p class="eyebrow">FLY, OPERATE, LEARN</p>
+<h2>From the launch pad to the mission report</h2>
+<div class="row" style="gap:40px">
+<div class="col" style="width:812px">
+<img class="shot rise" src="img/flight.jpg" alt="Piloting screen: the craft leaves Earth past the International Space Station at 403 km altitude" style="width:812px; height:457px">
+<p class="small">Piloting: leave Earth past the ISS, which always orbits at about 410 km.</p>
+</div>
+<div class="col" style="width:812px">
+<img class="shot rise" style="--i:1; width:812px; height:457px" src="img/report.jpg" alt="Mission report: Perfect mission, 96 points, three stars, a new Discovery Notebook line and score by criterion">
+<p class="small">Report: score by criterion, rewards and a new page for the Discovery Notebook.</p>
+</div>
+</div>
+</section>
+<section id="science" class="alt" data-transition="fade">
+<p class="eyebrow">THE SCIENCE INSIDE</p>
+<h2>Real physics and NASA planet data</h2>
+<div class="cards">
+<div class="card rise" style="--i:0"><h3>Sunlight fades with distance</h3><p class="lbl">Solar output falls with the square of the distance. Mars gets about 43% of Earth’s sunlight, Jupiter only a few percent.</p></div>
+<div class="card rise" style="--i:1"><h3>Signals fade too</h3><p class="lbl">Radio strength falls with the square of the distance to Earth, so outer-planet missions need bigger antennas and more storage.</p></div>
+<div class="card rise" style="--i:2"><h3>NASA data</h3><p class="lbl">Planet distances from the NASA Planetary Fact Sheet. Planet facts from NASA Solar System Exploration.</p></div>
+</div>
+<div class="row" style="gap:40px; align-items:center">
+<img class="shot" src="img/story.jpg" alt="Story screen: Bob and his AI companion LUMI set off" style="width:400px; height:225px">
+<p class="lead" style="width:1220px">Bob and his AI companion LUMI fill the <i>Solar System Discovery Notebook</i>, one page and one “Did you know?” fact per planet.</p>
+</div>
+</section>
+<section id="team" class="accent" data-transition="fade">
+<p class="eyebrow">TEAM TECHBRO · CURIOUS STUDENTS WHO LOVE TO EXPLORE</p>
+<h2>Try it, fail, and try again, just like real engineers</h2>
+<div class="cards">
+<div class="card" style="background:#FBE7C4; border-color:#E39A33"><h3 style="color:#1A1408">Tố Gia An</h3><p class="lbl" style="color:#3A2B10">Game design, ideas and the story of Bob and LUMI</p></div>
+<div class="card" style="background:#FBE7C4; border-color:#E39A33"><h3 style="color:#1A1408">Nguyễn Việt Khoa</h3><p class="lbl" style="color:#3A2B10">Finding and checking NASA planet data</p></div>
+<div class="card" style="background:#FBE7C4; border-color:#E39A33"><h3 style="color:#1A1408">Lê Minh Phong</h3><p class="lbl" style="color:#3A2B10">Playtesting, balancing and player experience</p></div>
+</div>
+<p style="font-size:30px; color:#3A2B10; width:1600px">Free in any browser, Vietnamese and English, no account needed. Built with help from an AI coding assistant, following the team’s design and testing.</p>
+<p style="font-family:'Space Grotesk', Arial, sans-serif; font-size:44px; font-weight:700; color:#1A1408">togiaan.github.io/space-mission</p>
+</section>
+
+</div></div>
+<div id="nav"><button id="prev" aria-label="Previous slide">‹</button><span id="count"></span><button id="next" aria-label="Next slide">›</button><a href="../">Play the game</a></div>
+<script>
+const s=[...document.querySelectorAll('#deck section')];let i=Math.max(0,Math.min(s.length-1,(parseInt(location.hash.slice(1))||1)-1));
+const deck=document.getElementById('deck');
+function fit(){const k=Math.min(innerWidth/1920,innerHeight/1080);deck.style.transform='scale('+k+')';}
+function show(n){i=Math.max(0,Math.min(s.length-1,n));s.forEach((e,j)=>e.classList.toggle('on',j===i));document.getElementById('count').textContent=(i+1)+' / '+s.length;history.replaceState(null,'','#'+(i+1));}
+addEventListener('resize',fit);addEventListener('hashchange',()=>{const n=(parseInt(location.hash.slice(1))||1)-1;if(n!==i)show(n);});
+addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key))show(i+1);if(['ArrowLeft','PageUp'].includes(e.key))show(i-1);});
+document.getElementById('next').onclick=()=>show(i+1);document.getElementById('prev').onclick=()=>show(i-1);
+let x0=null;addEventListener('touchstart',e=>x0=e.touches[0].clientX);addEventListener('touchend',e=>{if(x0===null)return;const d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)show(i+(d<0?1:-1));x0=null;});
+fit();show(i);
+</script></body></html>
